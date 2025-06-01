@@ -44,6 +44,11 @@ const galleryQuerySchema = z.object({
 });
 
 export function setupRoutes(app: Express) {
+  // Health check endpoint for Railway
+  app.get("/api/health", (req, res) => {
+    res.status(200).json({ status: "ok", message: "Service is healthy" });
+  });
+
   // Gallery routes
   app.get("/api/gallery", validateQuery(galleryQuerySchema), asyncHandler(async (req, res) => {
     const { category, search, type, featured } = req.query as z.infer<typeof galleryQuerySchema>;
